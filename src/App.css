@@ -1,0 +1,210 @@
+/* ── App layout ─────────────────────────────────────────────── */
+.app {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* ── Header ──────────────────────────────────────────────────── */
+.header {
+  text-align: center;
+  padding: 48px 0 24px;
+}
+
+.header h1 {
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--color-text-heading);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  letter-spacing: -0.5px;
+}
+
+.header-emoji {
+  font-size: 2.2rem;
+}
+
+.tagline {
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* ── Main ────────────────────────────────────────────────────── */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 40px;
+}
+
+/* ── Filter bar ──────────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.filter-btn {
+  padding: 6px 14px;
+  border-radius: 99px;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  font-family: inherit;
+}
+
+.filter-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.filter-btn.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── Idea card ───────────────────────────────────────────────── */
+.idea-card {
+  width: 100%;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 16px;
+  padding: 36px 40px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: opacity 0.18s ease;
+  min-height: 160px;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.idea-card.fade-out {
+  opacity: 0;
+}
+
+.idea-category {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.idea-text {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--color-text-heading);
+  margin: 0;
+}
+
+/* ── Action buttons ──────────────────────────────────────────── */
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn {
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  transition: transform 0.1s, box-shadow 0.15s, background 0.15s;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-hover);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+}
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1.5px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.btn-secondary.copied {
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+/* ── Count hint ──────────────────────────────────────────────── */
+.count-hint {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.footer {
+  text-align: center;
+  padding: 20px 0 32px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.footer a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 540px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .idea-card {
+    padding: 24px 20px;
+  }
+
+  .idea-text {
+    font-size: 1.1rem;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+}
