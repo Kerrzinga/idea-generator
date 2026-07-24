@@ -53,36 +53,38 @@ function App() {
 
   return (
     <div className="app">
-      <header className="header">
-        <h1>
-          <span className="header-emoji">{view === 'dice' ? '🎲' : '💡'}</span>
-          {view === 'dice' ? 'Word Dice' : 'Idea Generator'}
-        </h1>
-        <p className="tagline">
-          {view === 'dice'
-            ? "Roll two dice for today's adjective + character combo."
-            : 'Spark your next project, adventure, or skill.'}
-        </p>
-      </header>
-
-      <nav className="view-tabs" aria-label="Choose a tool">
+      {view === 'dice' ? (
         <button
           type="button"
-          className={`view-tab${view === 'dice' ? ' active' : ''}`}
-          onClick={() => setView('dice')}
-        >
-          🎲 Word Dice
-        </button>
-        <button
-          type="button"
-          className={`view-tab${view === 'ideas' ? ' active' : ''}`}
+          className="corner-toggle"
           onClick={() => setView('ideas')}
+          aria-label="Switch to Idea Generator"
+          title="Idea Generator"
         >
-          💡 Idea Generator
+          💡
         </button>
-      </nav>
+      ) : (
+        <>
+          <header className="header">
+            <h1>
+              <span className="header-emoji">💡</span>
+              Idea Generator
+            </h1>
+            <p className="tagline">Spark your next project, adventure, or skill.</p>
+          </header>
 
-      <main className="main">
+          <nav className="view-tabs" aria-label="Choose a tool">
+            <button type="button" className="view-tab" onClick={() => setView('dice')}>
+              🎲 Word Dice
+            </button>
+            <button type="button" className="view-tab active" onClick={() => setView('ideas')}>
+              💡 Idea Generator
+            </button>
+          </nav>
+        </>
+      )}
+
+      <main className={`main${view === 'dice' ? ' main-immersive' : ''}`}>
         {view === 'dice' ? (
           <DiceRoller />
         ) : (

@@ -13,10 +13,7 @@ export const CHARACTERS: string[] = [
   'Explorer', 'Chef', 'Clown', 'Scientist', 'Time Traveler', 'Fairy',
 ];
 
-const DIE_SIDES = 6;
-// Adjectives are picked with two dice (6x6 = 36 outcomes folded onto 12
-// slots) and characters are picked on a 12-slot spinning wheel, so both
-// lists use the same size today.
+// Both rings of the spinning wheel show 12 words each, reshuffled daily.
 const WORDS_PER_DAY = 12;
 
 function hashStringToInt(str: string): number {
@@ -66,33 +63,6 @@ export function getDailyWords(): DailyWords {
   const adjectives = seededShuffle(ADJECTIVES, hashStringToInt(`${dateKey}-adjective`)).slice(0, WORDS_PER_DAY);
   const characters = seededShuffle(CHARACTERS, hashStringToInt(`${dateKey}-character`)).slice(0, WORDS_PER_DAY);
   return { dateKey, adjectives, characters };
-}
-
-export function rollDie(): number {
-  return Math.floor(Math.random() * DIE_SIDES) + 1;
-}
-
-export interface DiceRoll {
-  die1: number;
-  die2: number;
-  index: number;
-}
-
-// Combines two six-sided dice into one of twelve equally likely outcomes
-// (36 ordered pairs fold evenly onto 12 slots), re-rolling if the result
-// repeats the previous index so consecutive rolls feel less clumpy.
-export function rollTwoDiceExcluding(previous: number | null): DiceRoll {
-  let die1 = rollDie();
-  let die2 = rollDie();
-  let index = ((die1 - 1) * DIE_SIDES + (die2 - 1)) % WORDS_PER_DAY;
-  let attempts = 0;
-  while (index === previous && attempts < 20) {
-    die1 = rollDie();
-    die2 = rollDie();
-    index = ((die1 - 1) * DIE_SIDES + (die2 - 1)) % WORDS_PER_DAY;
-    attempts++;
-  }
-  return { die1, die2, index };
 }
 
 // Picks one of `count` wheel slots, re-picking if it repeats the previous
