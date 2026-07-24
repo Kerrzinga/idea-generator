@@ -1,18 +1,23 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { getDailyWords, rollTwoDiceExcluding } from './diceWords'
-import WheelSpinner from './WheelSpinner'
+import WheelSpinner, { type WheelSpinnerHandle } from './WheelSpinner'
 
 const DICE_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅']
+const WHEEL_SPIN_MS = 4000
 
 function DiceRoller() {
   const { adjectives, characters } = useMemo(() => getDailyWords(), [])
+  const wheelRef = useRef<WheelSpinnerHandle>(null)
   const [die1, setDie1] = useState(1)
   const [die2, setDie2] = useState(1)
   const [adjIndex, setAdjIndex] = useState<number | null>(null)
   const [charIndex, setCharIndex] = useState<number | null>(null)
   const [rolling, setRolling] = useState(false)
+  const [busy, setBusy] = useState(false)
 
-  const rollDice = useCallback(() => {
+  const pullLever = useCallback(() => {
+    if (busy) return
+    setBusy(true)
     setRolling(true)
     setTimeout(() => {
       const { die1: d1, die2: d2, index } = rollTwoDiceExcluding(adjIndex)
@@ -21,22 +26,22 @@ function DiceRoller() {
       setAdjIndex(index)
       setRolling(false)
     }, 400)
-  }, [adjIndex])
+    wheelRef.current?.spin()
+    setTimeout(() => setBusy(false), WHEEL_SPIN_MS)
+  }, [adjIndex, busy])
 
   const adjective = adjIndex !== null ? adjectives[adjIndex] : null
   const character = charIndex !== null ? characters[charIndex] : null
 
   return (
     <section className="dice-roller">
-      <p className="dice-hint">
-        Today's word lists refresh once a day. Roll the dice for an adjective, spin the wheel for a character.
-      </p>
+      <p className="dice-hint">Pull the lever to lock in today's adjective + character combo.</p>
 
       <div className={`dice-result${adjective || character ? '' : ' placeholder'}`} aria-live="polite">
         {adjective || character ? (
           <span className="dice-result-text">{adjective ?? '?'} {character ?? '?'}</span>
         ) : (
-          <span className="dice-result-text muted">Roll and spin to reveal today's combo</span>
+          <span className="dice-result-text muted">Pull the lever to reveal today's combo</span>
         )}
       </div>
 
@@ -51,38 +56,17 @@ function DiceRoller() {
               {DICE_FACES[die2 - 1]}
             </div>
           </div>
-          <button type="button" className="btn btn-primary" onClick={rollDice} disabled={rolling}>
-            🎲 Roll the dice
-          </button>
         </div>
 
         <div className="combo-block">
           <h3 className="section-title">🎡 Character</h3>
-          <WheelSpinner items={characters} onResult={setCharIndex} />
+          <WheelSpinner ref={wheelRef} items={characters} onResult={setCharIndex} />
         </div>
       </div>
 
-      <details className="dice-lists">
-        <summary>Today's word lists</summary>
-        <div className="dice-lists-grid">
-          <div>
-            <h3>Adjectives</h3>
-            <ol>
-              {adjectives.map((word, i) => (
-                <li key={word}>{i + 1}. {word}</li>
-              ))}
-            </ol>
-          </div>
-          <div>
-            <h3>Characters</h3>
-            <ol>
-              {characters.map((word, i) => (
-                <li key={word}>{i + 1}. {word}</li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </details>
+      <button type="button" className="lever-btn" onClick={pullLever} disabled={busy}>
+        🎰 Pull the Lever
+      </button>
     </section>
   )
 }
