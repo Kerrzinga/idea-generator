@@ -1,0 +1,63 @@
+/* ── Design tokens (light mode) ─────────────────────────────── */
+:root {
+  --color-bg: #f8f8fc;
+  --color-surface: #ffffff;
+  --color-text: #4b4b5e;
+  --color-text-heading: #1a1a2e;
+  --color-text-muted: #8888a0;
+  --color-border: #e2e2ee;
+  --color-accent: #6366f1;
+  --color-accent-hover: #4f52e0;
+
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color-scheme: light dark;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Design tokens (dark mode) ──────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0f0f1a;
+    --color-surface: #1a1a2e;
+    --color-text: #a0a0b8;
+    --color-text-heading: #e8e8f0;
+    --color-text-muted: #5a5a78;
+    --color-border: #2a2a42;
+    --color-accent: #818cf8;
+    --color-accent-hover: #6366f1;
+  }
+}
+
+/* ── Reset / base ───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: var(--color-text-heading);
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+}
