@@ -1,12 +1,16 @@
-import { useCallback, useState } from 'react'
+import { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
 import { spinWheelExcluding } from './diceWords'
 
 const SEGMENT_ANGLE = 360 / 12
-const SEGMENT_COLORS = ['#6366f1', '#818cf8']
+const SEGMENT_COLORS = ['#ff6b35', '#3d1a54']
 const SPIN_DURATION_MS = 4000
 
 function angleForIndex(index: number) {
   return index * SEGMENT_ANGLE + SEGMENT_ANGLE / 2
+}
+
+export interface WheelSpinnerHandle {
+  spin: () => void
 }
 
 interface WheelSpinnerProps {
@@ -14,7 +18,10 @@ interface WheelSpinnerProps {
   onResult: (index: number) => void
 }
 
-function WheelSpinner({ items, onResult }: WheelSpinnerProps) {
+const WheelSpinner = forwardRef<WheelSpinnerHandle, WheelSpinnerProps>(function WheelSpinner(
+  { items, onResult },
+  ref,
+) {
   const [rotation, setRotation] = useState(0)
   const [spinning, setSpinning] = useState(false)
   const [lastIndex, setLastIndex] = useState<number | null>(null)
@@ -35,6 +42,8 @@ function WheelSpinner({ items, onResult }: WheelSpinnerProps) {
     }, SPIN_DURATION_MS)
   }, [items.length, lastIndex, onResult, rotation, spinning])
 
+  useImperativeHandle(ref, () => ({ spin }), [spin])
+
   const gradient = `conic-gradient(${items
     .map((_, i) => `${SEGMENT_COLORS[i % 2]} ${i * SEGMENT_ANGLE}deg ${(i + 1) * SEGMENT_ANGLE}deg`)
     .join(', ')})`
@@ -52,11 +61,8 @@ function WheelSpinner({ items, onResult }: WheelSpinnerProps) {
           </div>
         ))}
       </div>
-      <button type="button" className="btn btn-primary" onClick={spin} disabled={spinning}>
-        🎡 Spin the wheel
-      </button>
     </div>
   )
-}
+})
 
 export default WheelSpinner
