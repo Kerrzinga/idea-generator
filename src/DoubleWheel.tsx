@@ -1,8 +1,8 @@
 import { forwardRef, useCallback, useImperativeHandle, useState, type Dispatch, type SetStateAction } from 'react'
 import { spinWheelExcluding } from './diceWords'
 
-const OUTER_SIZE = 260
-const INNER_SIZE = 156
+const OUTER_SIZE = 380
+const INNER_SIZE = 224
 const OUTER_COLORS: [string, string] = ['#caa244', '#8a6a2c']
 const INNER_COLORS: [string, string] = ['#1f8a94', '#0e4f57']
 const OUTER_SPIN_MS = 4200

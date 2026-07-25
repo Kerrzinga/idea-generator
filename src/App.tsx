@@ -52,17 +52,20 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div className={`app${view === 'dice' ? ' app-dice' : ''}`}>
       {view === 'dice' ? (
-        <button
-          type="button"
-          className="corner-toggle"
-          onClick={() => setView('ideas')}
-          aria-label="Switch to Idea Generator"
-          title="Idea Generator"
-        >
-          💡
-        </button>
+        <>
+          <div className="library-backdrop" aria-hidden="true" />
+          <button
+            type="button"
+            className="corner-toggle"
+            onClick={() => setView('ideas')}
+            aria-label="Switch to Idea Generator"
+            title="Idea Generator"
+          >
+            💡
+          </button>
+        </>
       ) : (
         <>
           <header className="header">
